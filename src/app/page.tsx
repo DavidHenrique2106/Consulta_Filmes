@@ -5,7 +5,21 @@ import axios from 'axios';
 
 const apiKey = "e1ba7419"; 
 
-async function searchMovie(movieTitle) {
+interface MovieData {
+    title: string;
+    year: string;
+    poster: string;
+    plot: string;
+    actors: string;
+    director: string;
+    genre: string;
+    rated: string;
+    runtime: string;
+    imdbRating: string;
+    imdbVotes: string;
+}
+
+async function searchMovie(movieTitle: string): Promise<MovieData> {
     try {
         const response = await axios.get(`https://www.omdbapi.com/?apikey=${apiKey}&t=${encodeURIComponent(movieTitle)}`);
         const data = response.data;
@@ -34,10 +48,10 @@ async function searchMovie(movieTitle) {
 
 export default function Home() {
     const [movieTitle, setMovieTitle] = useState("");
-    const [movieData, setMovieData] = useState(null);
+    const [movieData, setMovieData] = useState<MovieData | null>(null);
     const [error, setError] = useState("");
 
-    async function handleSubmit(event) {
+    async function handleSubmit(event: React.FormEvent) {
         event.preventDefault();
         try {
             const data = await searchMovie(movieTitle);
@@ -45,15 +59,14 @@ export default function Home() {
             setError("");
         } catch (error) {
             setMovieData(null);
-            setError(error.message);
+            setError((error as Error).message);
         }
     }
 
     return (
         <div className='App' style={{textAlign: 'center'}}>
-          <h1>Atividade consulta filmes ( Faculdade )</h1>
-          <h1>Feito com TypeScript & Next.js</h1> <br /><br /><br />
-          
+            <h1>Consulta filmes ( Atividade Faculdade )</h1>
+            <h1>Feito com TypeScript e Next.js</h1> <br /><br /><br />
             <h1>Pesquisar Filme</h1>
             <form onSubmit={handleSubmit}>
                 <input 
