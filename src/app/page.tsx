@@ -75,7 +75,7 @@ export default function Home() {
                     onChange={(e) => setMovieTitle(e.target.value)} 
                     placeholder="Digite o nome do filme"
                 />
-                <button type="submit">Pesquisar</button>
+                <button type="submit">Pesquisar Filmes</button>
             </form>
             {error && <p>{error}</p>}
             {movieData && (
